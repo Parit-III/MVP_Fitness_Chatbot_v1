@@ -22,23 +22,17 @@ router.post("/plan", async (req, res) => {
 
   try {
     const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent`,
+      "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent",
       {
-        contents: [
-          {
-            parts: [{ text: prompt }]
-          }
-        ]
+        contents: [{ parts: [{ text: prompt }] }]
       },
       {
-        params: {
-          key: process.env.GEMINI_API_KEY
-        }
+        params: { key: process.env.GEMINI_API_KEY }
       }
     );
 
     const plan =
-      response.data.candidates[0].content.parts[0].text;
+      response.data.candidates?.[0]?.content?.parts?.[0]?.text || "No result";
 
     res.json({ plan });
 
