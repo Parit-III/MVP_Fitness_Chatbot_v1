@@ -18,27 +18,37 @@ router.post("/plan", async (req, res) => {
 
 กรุณาวางแผนออกกำลังกาย 5 วัน
 ตอบเป็นตาราง
-`;
+ใช้ภาษาไทย
+  `;
 
   try {
     const response = await axios.post(
-      "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent",
+      "https://api.groq.com/openai/v1/chat/completions",
       {
-        contents: [{ parts: [{ text: prompt }] }]
+        model: "llama-3.1-8b-instant",
+        messages: [
+          { role: "system", content: "คุณเป็นผู้เชี่ยวชาญด้านการออกกำลังกาย" },
+          { role: "user", content: prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 800
       },
       {
-        params: { key: process.env.GEMINI_API_KEY }
+        headers: {
+          Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+          "Content-Type": "application/json"
+        }
       }
     );
 
     const plan =
-      response.data.candidates?.[0]?.content?.parts?.[0]?.text || "No result";
+      response.data.choices?.[0]?.message?.content || "No result";
 
     res.json({ plan });
 
   } catch (err) {
-    console.error("Gemini error:", err.response?.data || err.message);
-    res.status(500).json({ error: "Gemini API error" });
+    console.error("Groq error:", err.response?.data || err.message);
+    res.status(500).json({ error: "Groq API error" });
   }
 });
 
