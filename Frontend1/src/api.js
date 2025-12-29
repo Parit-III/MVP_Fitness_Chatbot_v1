@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://fitness-ai-backend.onrender.com/api"
+  baseURL: "https://mvp-fitness-chatbot-v1-zx18.onrender.com/api"
 });
 
 export default API;
