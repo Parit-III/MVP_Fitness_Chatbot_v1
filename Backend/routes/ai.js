@@ -47,8 +47,8 @@ User's Information:
 - weight: ${weight} kg
 - height: ${height} cm
 - goal: ${goal}
-- injury: ${injury || "ไม่มี"}
-- free time: ${time} นาที/วัน
+- injury: ${injury || "None"}
+- free time: ${time} minute/day
 
 OUTPUT FORMAT EXACTLY JSON:
 {
