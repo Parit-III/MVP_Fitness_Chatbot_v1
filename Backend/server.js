@@ -18,6 +18,11 @@ app.use(cors({
 
 app.use(express.json());
 
+/* ✅ ใส่ตรงนี้ */
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
+
 app.use("/api/ai", aiRoute);
 
 const PORT = process.env.PORT || 5000;
