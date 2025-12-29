@@ -64,13 +64,19 @@ STRICT RULES:
 `;
 
   try {
-    const content = await groq([
-      { role: "system", content: "คุณเป็นเทรนเนอร์ฟิตเนสระดับมืออาชีพ" },
-      { role: "user", content: prompt }
-    ]);
+    let content = await groq([
+  { role: "system", content: "คุณเป็นเทรนเนอร์ฟิตเนสระดับมืออาชีพ" },
+  { role: "user", content: prompt }
+]);
 
-    const plan = JSON.parse(content);
-    res.json({ plan });
+// 🔥 กัน AI ตอบนอก JSON
+content = content.replace(/```json|```/g, "").trim();
+
+console.log("AI RAW:", content); // 👈 สำคัญ
+
+const plan = JSON.parse(content);
+res.json({ plan });
+
 
   } catch (err) {
     console.error(err.message);
