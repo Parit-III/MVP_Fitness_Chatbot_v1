@@ -1,6 +1,17 @@
 import { useState } from "react";
 import axios from "axios";
 
+const API = axios.create({
+  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api`
+});
+
+console.log("Backend URL used in frontend:", import.meta.env.VITE_BACKEND_URL);
+
+
+export const generatePlanAPI = (data) => API.post("/ai/plan", data);
+export const sendChatAPI = (data) => API.post("/ai/chat", data);
+export const updatePlanAPI = (data) => API.post("/ai/update-plan", data);
+
 export default function App() {
   const [page, setPage] = useState("form"); // form | chat
 
@@ -29,10 +40,7 @@ export default function App() {
   const generatePlan = async () => {
     setLoading(true);
 
-    const res = await axios.post(
-      "http://localhost:5000/api/ai/plan",
-      form
-    );
+    const res = await generatePlanAPI(form);
 
     setPlan(res.data.plan);
 
@@ -56,10 +64,7 @@ export default function App() {
     setMessages(newMessages);
     setInput("");
 
-    const res = await axios.post("http://localhost:5000/api/ai/chat", {
-      messages: newMessages,
-      currentPlan: plan   // ⭐ สำคัญมาก
-    });
+    const res = await sendChatAPI({ messages: newMessages, currentPlan: plan });
 
     setMessages([
       ...newMessages,
@@ -77,10 +82,7 @@ export default function App() {
     // ใส่ข้อความ user เข้า chat
     setMessages(prev => [...prev, { role: "user", content: instruction }]);
 
-    const res = await axios.post("http://localhost:5000/api/ai/update-plan", {
-      currentPlan: plan,
-      instruction
-    });
+    const res = await updatePlanAPI({ currentPlan: plan, instruction });
 
     setPlan(res.data.plan);
 
