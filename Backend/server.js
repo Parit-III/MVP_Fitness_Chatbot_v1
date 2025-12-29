@@ -23,6 +23,10 @@ app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
 
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", message: "API is healthy 💪" });
+});
+
 app.use("/api/ai", aiRoute);
 
 const PORT = process.env.PORT || 5000;
