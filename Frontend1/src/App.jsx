@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import API from "./api";
 
 export default function App() {
   const [page, setPage] = useState("form"); // form | chat
@@ -29,10 +29,8 @@ export default function App() {
   const generatePlan = async () => {
     setLoading(true);
 
-    const res = await axios.post(
-      "http://localhost:5000/api/ai/plan",
-      form
-    );
+    const res = await API.post("/ai/plan", form);
+
 
     setPlan(res.data.plan);
 
@@ -56,10 +54,11 @@ export default function App() {
     setMessages(newMessages);
     setInput("");
 
-    const res = await axios.post("http://localhost:5000/api/ai/chat", {
+    const res = await API.post("/ai/chat", {
       messages: newMessages,
-      currentPlan: plan   // ⭐ สำคัญมาก
+      currentPlan: plan
     });
+
 
     setMessages([
       ...newMessages,
@@ -77,10 +76,15 @@ export default function App() {
     // ใส่ข้อความ user เข้า chat
     setMessages(prev => [...prev, { role: "user", content: instruction }]);
 
-    const res = await axios.post("http://localhost:5000/api/ai/update-plan", {
+    const res = await API.post("/ai/update-plan", {
       currentPlan: plan,
       instruction
     });
+    // const res = await axios.post("http://localhost:5000/api/ai/chat", {
+    //   messages: newMessages,
+    //   currentPlan: plan   // ⭐ สำคัญมาก
+    // });
+
 
     setPlan(res.data.plan);
 

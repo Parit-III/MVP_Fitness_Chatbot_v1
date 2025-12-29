@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://fitness-ai-backend.onrender.com/api",
 });
 
-export const generatePlan = (data) =>
-  API.post("/ai/plan", data);
+export default API;
