@@ -42,15 +42,15 @@ STRICT RULES:
 - English only
 - No explanation text
 
-ข้อมูลผู้ใช้:
-- อายุ: ${age}
-- น้ำหนัก: ${weight} kg
-- ส่วนสูง: ${height} cm
-- เป้าหมาย: ${goal}
-- อาการบาดเจ็บ: ${injury || "ไม่มี"}
-- เวลาว่าง: ${time} นาที/วัน
+User's Information:
+- age: ${age}
+- weight: ${weight} kg
+- height: ${height} cm
+- goal: ${goal}
+- injury: ${injury || "ไม่มี"}
+- free time: ${time} นาที/วัน
 
-รูปแบบ JSON:
+OUTPUT FORMAT EXACTLY JSON:
 {
   "days": [
     {
