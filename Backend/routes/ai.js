@@ -82,28 +82,25 @@ STRICT RULES:
 /* ===== CHAT ======== */
 /* ===================== */
 router.post("/chat", async (req, res) => {
-  const { messages, plan } = req.body;
+  const { messages, currentPlan } = req.body;
 
-  try {
-    const reply = await groq([
-      {
-        role: "system",
-        content: `
+  const reply = await groq([
+    {
+      role: "system",
+      content: `
 You are a personal trainer.
 User already has this workout plan:
-${plan ? JSON.stringify(plan) : "No plan yet"}
+${currentPlan ? JSON.stringify(currentPlan) : "No plan yet"}
 
 Reply with text only.
-`,
-      },
-      ...messages,
-    ], 300);
+`
+    },
+    ...messages
+  ], 300);
 
-    res.json({ reply });
-  } catch (err) {
-    res.status(500).json({ error: "Chat failed" });
-  }
+  res.json({ reply });
 });
+
 
 
 /* ========================= */
